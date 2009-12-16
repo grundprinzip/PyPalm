@@ -65,9 +65,10 @@ def emulator():
     """ Start the emulator """
     call_and_return("palm-emulator")
 
-def debug():
+def debug(appinfo):
     """Start the debugger """
-    pass
+    # Directly start novaterm in the beginning
+    os.execl("/usr/bin/novaterm")
 
 def log(appinfo, device="tcp"):
     """ Print the log output """
@@ -136,3 +137,9 @@ Use PyPalm to control your development process on the webOS device.
         emulator()
     elif args[0] == 'log':
         log(app_info, device=options.device)
+    elif args[0] == "deploy":
+        package(current_dir, app_info, quiet=QUIET)
+        install(current_dir, app_info, version=options.version,
+                device=options.device, quiet=QUIET)
+    elif args[0] == "debug":
+        debug(app_info)
