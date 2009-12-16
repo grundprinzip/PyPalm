@@ -1,4 +1,4 @@
-import json, os
+import json, os, subprocess
 from optparse import OptionParser
 
 ACTIONS = ['install', 'debug', 'package', 'deploy', 'log']
@@ -13,12 +13,13 @@ def parse_appinfo(dest_dir):
 
 def package(dest_dir):
     """ Packages the application"""
-    pass
+    ret_code = subprocess.call(["palm-package", dest_dir])
+    if ret_code
+
 
 def install(dest_dir, appinfo, version=None):
     """ Installs version number xxx to the device"""
     pass
-
 
 
 def main_func():
@@ -50,4 +51,5 @@ Use PyPalm to control your development process on the webOS device.
     current_dir = os.getcwd()
     app_info = parse_appinfo(current_dir)
 
-    print app_info
+    if args[0] == "package":
+        package(current_dir)
