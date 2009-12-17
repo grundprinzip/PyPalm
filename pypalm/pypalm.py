@@ -7,6 +7,11 @@ ACTIONS = ['install', 'debug', 'package', 'deploy', 'log',
            'emulator', 'clean', 'start', 'remove']
 QUIET = True
 
+
+def is_app_dir(dest_dir):
+    return os.path.exists(os.path.join(dest_dir, "appinfo.json"))
+
+
 def call_and_return(args):
     p = subprocess.Popen(args, stdout = subprocess.PIPE)
     out = p.communicate()[0]
@@ -156,6 +161,12 @@ Use PyPalm to control your development process on the webOS device.
     if len(args) == 0:
         parser.print_help()
         exit()
+
+    # If this is not an app dir exit
+    if not is_app_dir(os.getcwd()):
+        print "This is not a Palm webOS application directory!"
+        exit()
+
 
     # Check for the output
     if options.verbose:
