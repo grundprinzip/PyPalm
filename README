@@ -27,5 +27,9 @@ When installed PyPalm has installed a command line script that has the following
 
 All the stupid default information is directly extracted from appinfo.json file.
 
+To execute run
+
+pypalm --help
+
 
 
