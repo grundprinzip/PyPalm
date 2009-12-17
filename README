@@ -1,0 +1,31 @@
+# PyPalm
+
+PyPalm is an easy tool that should help to work with the Palm webOS SDK from the command line. Basically it should be used as a shortcut replacement for the native tools.
+
+Pypalm can be easily installed via 
+
+   pip install pypalm
+
+or
+
+   easy_install pypalm
+
+or
+
+   git clone git://github.com/grundprinzip/PyPalm.git && cd PyPalm && sudo python setup.py install
+
+
+When installed PyPalm has installed a command line script that has the following options:
+
+- install - install the current version on the device
+- debug - launch a connection to the device
+- package - package the current version of the application
+- deploy -> package, install
+- log - print log files
+- emulator - launch the emulator
+- clean - remove all ipk file
+
+All the stupid default information is directly extracted from appinfo.json file.
+
+
+

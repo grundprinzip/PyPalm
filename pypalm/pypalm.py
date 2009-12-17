@@ -1,9 +1,10 @@
-import json, os, subprocess
+import json, os, subprocess, re
 import StringIO
 
 from optparse import OptionParser
 
-ACTIONS = ['install', 'debug', 'package', 'deploy', 'log', 'emulator']
+ACTIONS = ['install', 'debug', 'package', 'deploy', 'log',
+           'emulator', 'clean', 'start', 'remove']
 QUIET = True
 
 def call_and_return(args):
@@ -84,6 +85,45 @@ def log(appinfo, device="tcp"):
     (ret_code, output) = call_and_return(args)
     print output
 
+def clean(dest_dir, appinfo):
+    """ Clear IPK files"""
+    m = re.compile("%s.*\.ipk$" % appinfo["id"].replace(".", "\\."))
+    for f in os.listdir(dest_dir):
+        if m.search(f):
+            os.remove(f)
+
+
+def start(dest_dir, id, device='tcp'):
+    """ Lauch the app"""
+    args = ['palm-launch']
+    
+    args.append('-d')
+    args.append(device)
+
+    args.append(id)
+
+    (ret_code, output) = call_and_return(args)
+    if ret_code < 0:
+        print output
+        print "There was an error"
+
+def remove(dest_dir, id, device='tcp', quiet=True):
+    args = ['palm-install']
+
+    args.append('-d')
+    args.append(device)
+
+    args.append('-r')
+
+    args.append(id)
+    (ret_code, output) = call_and_return(args)
+    if ret_code < 0:
+        print output
+        print "Could not remove the application"
+
+
+    if not quiet:
+        print output
 
 def main_func():
 
@@ -96,6 +136,9 @@ Use PyPalm to control your development process on the webOS device.
     deploy - package and deploy
     debug - start the debugger
     log - get log output from the device
+    clean - remove old IPK files
+    remove - Uninstall the application
+    start - Start the application
     emulator - start the emulator """
 
     
@@ -143,3 +186,9 @@ Use PyPalm to control your development process on the webOS device.
                 device=options.device, quiet=QUIET)
     elif args[0] == "debug":
         debug(app_info)
+    elif args[0] == 'clean':
+        clean(current_dir, app_info)
+    elif args[0] == 'start':
+        start(current_dir, app_info['id'], device=options.device)
+    elif args[0] == 'remove':
+        remove(current_dir, app_info['id'], device=options.device, quiet=QUIET)
