@@ -1,8 +1,9 @@
 from setuptools import setup, find_packages
+import pypalm.pypalm as pp
 
 setup(
     name = "PyPalm",
-    version = "0.2.1",
+    version = pp.VERSION,
     packages = find_packages(),
 
     author = "Martin Grund",
