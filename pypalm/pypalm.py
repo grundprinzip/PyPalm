@@ -1,13 +1,16 @@
 from optparse import OptionParser
 
 from generate import new_scene
+
 from basic import *
 
+from lang import localize
 
-VERSION = "0.2.4"
+
+VERSION = "0.20.10"
 
 ACTIONS = ['install', 'debug', 'package', 'deploy', 'log',
-           'emulator', 'clean', 'start', 'remove', 'new_scene']
+           'emulator', 'clean', 'start', 'remove', 'new_scene', 'localize']
 
 QUIET = True
 
@@ -29,7 +32,8 @@ Use PyPalm to control your development process on the webOS device.
     remove - Uninstall the application
     start - Start the application
     new_scene - Create a new scene named 'name'
-    emulator - start the emulator """
+    emulator - start the emulator
+    localize - read all langu data and write the strings file and update the old ones"""
 
     usage += "\n\n    v%s (c) Martin Grund\n" % VERSION
     
@@ -94,5 +98,7 @@ Use PyPalm to control your development process on the webOS device.
         if len(args) < 2:
             print "new_scene needs an additional 'name' argument"
             exit()
-            
         new_scene(current_dir, args[1], quiet=QUIET)
+    elif args[0] == "localize":
+        localize(current_dir, quiet=QUIET)
+        
