@@ -25,6 +25,7 @@ When installed PyPalm has installed a command line script that has the following
 - emulator - launch the emulator
 - new_scene - Create a new scene
 - clean - remove all ipk file
+- localize - generate and update localization files
 
 All the stupid default information is directly extracted from appinfo.json file.
 
@@ -32,5 +33,23 @@ To execute run
 
 pypalm --help
 
+## new_scene
+
+To create a new scene in you application you have to execute the `pypalm new_scene [name]` command. This will than generate the necessary files as it is done by the original Palm tools.
+
+## localize
+
+When developing mobile applications it becomes very important to localize the content of the application for multiple countries. The disadvantage of the current version of the Palm WebOS developer tools is that they do not support localization in an automatic way. To help the developer PyPalm comes with a command called localize.
+
+Localize will scan all application source files and check for method calls with $L(...) it will extract the key and create an entrie in the language catalog. For all supported languages it will create or update the necessary files in the folders under resources/[lang]/strings.json.
+
+To specify which languages are supported the framework_config.json file has to be edited. A sampel config file would look like this
+
+   {
+	"languages" : ["de_de"]
+   }
+
+
+The `languages` key is checked by PyPalm to generate the right files for localization.
 
 
