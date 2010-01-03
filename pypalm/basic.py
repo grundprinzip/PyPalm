@@ -66,20 +66,36 @@ def debug(appinfo):
     # Directly start novaterm in the beginning
     os.execl("/usr/bin/novaterm")
 
-def log(appinfo, device="tcp"):
+def log(appinfo, device="tcp", follow=False):
     """ Print the log output """
-    args = ["palm-log"]
+    args = ['palm-log']
 
     # Set the device
     args.append("-d")
     args.append(device)
 
+    if follow:
+        args.append("-f")
+
     # Set the appid
     args.append(appinfo["id"])
 
-    (ret_code, output) = call_and_return(args)
-    print output
+    print " ".join(args)
 
+    p = subprocess.Popen(args, stdin=subprocess.PIPE, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, bufsize=1024)
+
+    try:
+    
+        while p.returncode == None:
+            print p.stdout.readline().strip()
+            p.poll()
+            
+    except KeyboardInterrupt:
+        
+        print "Terminating log"
+        p.terminate()
+            
+            
 def clean(dest_dir, appinfo):
     """ Clear IPK files"""
     m = re.compile("%s.*\.ipk$" % appinfo["id"].replace(".", "\\."))
@@ -101,6 +117,23 @@ def start(dest_dir, id, device='tcp'):
     if ret_code < 0:
         print output
         print "There was an error"
+
+def stop(dest_dir, id, device='tcp'):
+    """ Kill the app"""
+    args = ['palm-launch']
+
+    args.append('-c')
+    
+    args.append('-d')
+    args.append(device)
+
+    args.append(id)
+
+    (ret_code, output) = call_and_return(args)
+    if ret_code < 0:
+        print output
+        print "There was an error"
+
 
 def remove(dest_dir, id, device='tcp', quiet=True):
     args = ['palm-install']
