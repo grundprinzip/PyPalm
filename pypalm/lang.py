@@ -78,6 +78,9 @@ def merge_data(old_lang, new_lang):
         del cpy[k]
 
     for k,v in cpy.iteritems():
+        if v == "":
+            v = "_%%_%s" % k
+            
         result[k] = v
 
     return result
