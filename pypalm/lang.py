@@ -25,7 +25,7 @@ def get_files(current_dir):
 
 def process_files(files):
     lexicon = {}
-    exp = re.compile("\\$L\\(\"(.*?)\"(,.*)?\\)", re.M)
+    exp = re.compile("\\$L\\([\"'](.*?)[\"'](,.*)?\\)", re.M)
     
     for f in files:
         fid = codecs.open(f, "r", "utf-8")

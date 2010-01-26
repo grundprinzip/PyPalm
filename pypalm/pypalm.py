@@ -7,7 +7,7 @@ from basic import *
 from lang import localize
 
 
-VERSION = "0.20.11"
+VERSION = "0.20.13"
 
 ACTIONS = ['install', 'debug', 'package', 'deploy', 'log',
            'emulator', 'clean', 'start', 'remove', 'new_scene', 'localize', 'stop']
